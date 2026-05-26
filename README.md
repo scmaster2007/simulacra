@@ -1,8 +1,6 @@
 ## Simulacra
 
-is an Open-Source Project that aims to create a comprehensive map of all the security/surveillance cameras on the West Coast. Users can upload pictures of security cameras not yet on the site, an AI will determine the image's validity slash location, and the information will be updated, thanks to the user's help! We hope this will become more of a community-led project more than just a pretty scraper.
-
-See [SETUP.md](SETUP.md) for local setup and Supabase deployment.
+is an Open-Source Project that aims to create a comprehensive geometric map of all the security/surveillance cameras on the West Coast. Users can upload pictures of security cameras not yet on the site, an AI will determine the image's validity slash location, and the information will be updated, thanks to the user's help! We hope this will become more of a community-led project more than just a pretty scraper. The website currently only works in 2D mode and has a litany of features (such as vision cones, radii of vision corresponding to specific security camera models). We hope to add + improve upon the existing 3D map as well.
 
 ---
 
