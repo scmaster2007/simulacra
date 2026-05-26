@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simulacra</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="styles.css?v=11" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <header id="panel">
+    <h1>Simulacra</h1>
+    <p class="tag">surveillance cameras with estimated coverage cones</p>
+    <div class="view-toggle" role="group" aria-label="Map view" hidden>
+      <button type="button" class="is-active" data-view="2d" aria-pressed="true">2D</button>
+      <button type="button" data-view="3d" aria-pressed="false">3D</button>
+    </div>
+    <div id="toggles"></div>
+    <label class="master-toggle">
+      <input id="coverageToggle" type="checkbox" checked />
+      <span>Show estimated coverage <span class="muted">(cameras load at z14+)</span></span>
+    </label>
+
+    <section class="submission-panel">
+      <div class="submission-header">
+        <h2>Submit a camera</h2>
+        <p class="submission-hint">Click the map or use your current location, then upload a photo. The AI will classify it and publish it automatically if it looks like a camera. <em>Your photo is not stored — EXIF is stripped client-side and the image is discarded after AI classification.</em></p>
+      </div>
+
+      <label class="submission-label" for="photoInput">Photo</label>
+      <input id="photoInput" type="file" accept="image/*" capture="environment" />
+      <img id="photoPreview" class="photo-preview" alt="Preview of submitted camera" hidden />
+
+      <div class="location-row">
+        <div>
+          <span class="submission-label">Location</span>
+          <p id="selectedLocationText" class="selected-location">No location selected</p>
+        </div>
+        <button id="useLocationBtn" type="button" class="secondary-btn">Use current location</button>
+      </div>
+
+      <input id="selectedLat" type="hidden" />
+      <input id="selectedLng" type="hidden" />
+
+      <span class="submission-label">Direction the camera faces</span>
+      <div class="bearing-row">
+        <input id="bearingSlider" type="range" min="0" max="359" value="0" disabled />
+        <span id="bearingValue" class="bearing-value">—</span>
+      </div>
+      <label class="bearing-omni">
+        <input id="bearingOmni" type="checkbox" checked />
+        <span>Omnidirectional / unknown direction</span>
+      </label>
+
+      <div class="submission-actions">
+        <button id="submitBtn" type="button" class="primary-btn">Submit camera</button>
+      </div>
+      <p id="submitStatus" class="submit-status">Configure your Supabase settings to enable submissions.</p>
+    </section>
+
+    <p id="status" class="status">loading…</p>
+    <details>
+      <summary>about</summary>
+      <p>Sources: <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a>
+         (via <a href="https://overpass-api.de/" target="_blank" rel="noopener">Overpass</a>, bbox-loaded when zoomed in),
+         <a href="https://gisdata-caltrans.opendata.arcgis.com/datasets/450df5bed93c4558a7264b7ef64187e6_0/about" target="_blank" rel="noopener">Caltrans CCTV</a>
+         (statewide highway cameras), and a 2019
+         <a href="https://www.techpolicy.press/san-diego-street-smarts-and-surveillance/" target="_blank" rel="noopener">San Diego CityIQ</a>
+         snapshot (5,300 smart-streetlight nodes).</p>
+      <p>OSM cameras with a known bearing show a directional arc; other sources use a circular estimated view radius based on camera type. Caltrans locations are approximate.</p>
+      <p>Community submissions are stored in Supabase and displayed instantly when their AI classification clears the sanity check.</p>
+    </details>
+  </header>
+
+  <script src="config.js" onerror="/* config.js is optional — see config.example.js */"></script>
+  <script>
+    window.SIMULACRA_CONFIG = window.SIMULACRA_CONFIG || {
+      supabaseUrl: '',
+      supabaseAnonKey: '',
+      submitCameraFunction: 'submit-camera',
+    };
+  </script>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="app.js?v=13"></script>
+</body>
+</html>
